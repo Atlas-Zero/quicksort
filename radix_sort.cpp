@@ -4,26 +4,6 @@
 
 using std::cout, std::endl;
 
-void printSorted(int *sorted, int countSorted)
-{
-    cout << endl << "Output: " << endl;
-    for (int s{0}; s < countSorted; s++)
-    {
-        cout << sorted[s];
-
-        if (s < countSorted - 1)
-        {
-            cout << ", ";
-        }
-
-        if (s > 1 &&
-            s % 25 == 0)
-        {
-            cout << endl;
-        }
-    }
-}
-
 void radix(int *data, int count)
 {
     int max = data[0];
@@ -67,8 +47,6 @@ void radix(int *data, int count)
 
         divisor *= 10;
     }
-
-    printSorted(data, count);
 }
 
 
@@ -111,6 +89,24 @@ int main()
     radix(data, countData);
     
     auto end = std::chrono::high_resolution_clock::now();
+
+    cout << endl << "Output: " << endl;
+
+    for (int d{0}; d < countData; d++)
+    {
+        cout << data[d];
+
+        if (d < countData - 1)
+        {
+            cout << ", ";
+        }
+
+        if (d > 1 &&
+            d % 25 == 0)
+        {
+            cout << endl;
+        }
+    }
 
     std::chrono::duration<double, std::micro> duration = end - start;
     std::cout << endl << "Execution time: " << duration.count() << " microseconds ("
