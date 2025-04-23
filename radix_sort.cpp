@@ -9,12 +9,13 @@ void printSorted(int *sorted, int countSorted)
     {
         cout << sorted[s];
 
-        if (s != countSorted - 1)
+        if (s < countSorted - 1)
         {
             cout << ", ";
         }
 
-        if (s % 25 == 0)
+        if (s > 1 &&
+            s % 25 == 0)
         {
             cout << endl;
         }
@@ -29,32 +30,34 @@ void radix(int *data, int count)
         if (data[i] > max)
             max = data[i];
     }
-    int powerOfTens = 0;
+    int powerOfTen = 0;
     while (max > 0)
     {
         max /= 10;
-        powerOfTens++;
+        powerOfTen++;
     }
 
     int sorted[100] = {};
-    int n{0};
+    int i{0};
 
-    while (n <= 100)
+    for (int currPot{0}; currPot <= powerOfTen; currPot++) 
     {
-        for (int t{0}; t <= powerOfTens; t++) // cycles through each power of ten
+        for (int currDig{0}; currDig <= 9; currDig++)
         {
-            for (int i{0}; i <= 9; i++) // cycles through each digit through base 10
+            for (int n{0}; n < count; n++)
             {
-                if (data[n] % (i * pow(10, t) == 0)) // sorts from lowest to highest
+                if (data[n] % (currDig * pow(10, currPot) == 0)) // sorts from lowest to highest
                 {
-                    sorted[n] = data[n];
-                    n++;
-                }
+                    sorted[i] = data[n];
+                    i++;
+                }        
             }
         }
     }
 
+
     int countSorted = sizeof(sorted) / sizeof(int);
+
     printSorted(sorted, countSorted);
 }
 
@@ -78,7 +81,7 @@ int main()
     {
         cout << data[d];
 
-        if (d != countData - 1)
+        if (d < countData - 1)
         {
             cout << ", ";
         }
