@@ -1,5 +1,5 @@
-#ifndef SORT_HPP
-#define SORT_HPP
+#ifndef QUICK_SORT_HPP
+#define QUICK_SORT_HPP
 
 #include <cstddef>
 
