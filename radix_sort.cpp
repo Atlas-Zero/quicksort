@@ -1,10 +1,12 @@
 #include <iostream>
 #include <cmath>
+#include <chrono>
 
 using std::cout, std::endl;
 
 void printSorted(int *sorted, int countSorted)
 {
+    cout << endl << "Output: " << endl;
     for (int s{0}; s < countSorted; s++)
     {
         cout << sorted[s];
@@ -25,12 +27,13 @@ void printSorted(int *sorted, int countSorted)
 void radix(int *data, int count)
 {
     int max = data[0];
-    for (std::size_t i = 0; i < count; i++)
+    for (int i = 1; i < count; i++)
     {
         if (data[i] > max)
             max = data[i];
     }
-    int powerOfTen = 0;
+
+    int powerOfTen{0};
     while (max > 0)
     {
         max /= 10;
@@ -38,28 +41,36 @@ void radix(int *data, int count)
     }
 
     int sorted[100] = {};
-    int i{0};
+    int divisor = 1;
 
-    for (int currPot{0}; currPot <= powerOfTen; currPot++) 
+    for (int currPot{0}; currPot < powerOfTen; currPot++)
     {
+        int i{0};
+
         for (int currDig{0}; currDig <= 9; currDig++)
         {
             for (int n{0}; n < count; n++)
             {
-                if (data[n] % (currDig * pow(10, currPot) == 0)) // sorts from lowest to highest
+                int digit = (data[n] / divisor) % 10;
+                if (digit == currDig)
                 {
                     sorted[i] = data[n];
                     i++;
-                }        
+                }
             }
         }
+
+        for (int k{0}; k < count; ++k)
+        {
+            data[k] = sorted[k];
+        }
+
+        divisor *= 10;
     }
 
-
-    int countSorted = sizeof(sorted) / sizeof(int);
-
-    printSorted(sorted, countSorted);
+    printSorted(data, count);
 }
+
 
 int main()
 {
@@ -77,6 +88,8 @@ int main()
 
     int countData = sizeof(data) / sizeof(int);
 
+    cout << "Input: " << endl;
+
     for (int d{0}; d < countData; d++)
     {
         cout << data[d];
@@ -93,7 +106,14 @@ int main()
         }
     }
 
+    auto start = std::chrono::high_resolution_clock::now();
+
     radix(data, countData);
+    
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double, std::micro> duration = end - start;
+    std::cout << endl << "Execution time: " << duration.count() << " microseconds" << std::endl;
 
     return 0;
 }
