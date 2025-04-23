@@ -113,7 +113,8 @@ int main()
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double, std::micro> duration = end - start;
-    std::cout << endl << "Execution time: " << duration.count() << " microseconds" << std::endl;
+    std::cout << endl << "Execution time: " << duration.count() << " microseconds ("
+    << duration.count() / 1000 << "ms)" << std::endl;
 
     return 0;
 }
